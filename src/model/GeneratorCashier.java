@@ -1,12 +1,15 @@
 package model;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class GeneratorCashier {
 
     private List<Cashier> cashiers;
-    private final int countCashiers;
+    private int countCashiers;
 
     public GeneratorCashier(final int countCashiers) {
         this.cashiers = new ArrayList<Cashier>();

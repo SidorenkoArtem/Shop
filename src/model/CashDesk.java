@@ -5,9 +5,7 @@ import java.util.Map.Entry;
 
 public class CashDesk {
     public static Map<Cashier, List<Purchaser>> purchasersCashDesks = new HashMap<Cashier, List<Purchaser>>();
-    private static Integer MAX_COUNT_CASHIER = 10;
-    private static Integer MIN_COUNT_CASHIER = 0;
-    private int countCashier = 0;
+    private final static Integer MAX_COUNT_CASHIER = 10;
 
     public CashDesk() {
         purchasersCashDesks = new HashMap<Cashier, List<Purchaser>>();

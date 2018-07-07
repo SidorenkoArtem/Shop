@@ -1,13 +1,20 @@
 package model;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Getter
+@Setter
+@ToString
 public class Purchaser implements Runnable {
-    public int id;
-
-    public List<Goods> basket;
+    private int id;
+    private List<Goods> basket;
 
     public Purchaser(final int id) {
         this.id = id;
@@ -17,29 +24,9 @@ public class Purchaser implements Runnable {
         }
     }
 
-    public Purchaser(final List<Goods> goods) {
-        this.basket = goods;
-    }
-
-    public List<Goods> getBasket() {
-        return basket;
-    }
-
-    public void setBasket(List<Goods> basket) {
-        this.basket = basket;
-    }
-
-    @Override
-    public String toString() {
-        return "Purchaser{" +
-                "basket=" + basket +
-                '}';
-    }
-
     public void run() {
         CashDesk.add(this);
-        System.out.println("Purchaser ready" + this.id);
-
+        System.out.println("Purchaser ready " + this.id);
         try {
             synchronized (this) {
                 this.wait();
@@ -47,7 +34,5 @@ public class Purchaser implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 }
