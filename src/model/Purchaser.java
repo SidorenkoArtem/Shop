@@ -1,10 +1,11 @@
 package model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,9 +16,11 @@ import java.util.Random;
 public class Purchaser implements Runnable {
     private int id;
     private List<Goods> basket;
+    private JPanel panel;
 
-    public Purchaser(final int id) {
+    public Purchaser(final int id, final JPanel panel) {
         this.id = id;
+        this.panel = panel;
         this.basket = new ArrayList<Goods>();
         for(int i = 0; i< new Random().nextInt(10); i++) {
             this.basket.add(Goods.values()[new Random().nextInt(Goods.values().length)]);
@@ -25,7 +28,7 @@ public class Purchaser implements Runnable {
     }
 
     public void run() {
-        CashDesk.add(this);
+        CashDesk.add(this, panel.getGraphics());
         System.out.println("Purchaser ready " + this.id);
         try {
             synchronized (this) {
