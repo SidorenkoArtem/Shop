@@ -3,9 +3,7 @@ package model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -28,7 +26,7 @@ public class Purchaser implements Runnable {
     }
 
     public void run() {
-        CashDesk.add(this, panel.getGraphics());
+        CashDesk.add(this, panel.getGraphics(), panel.getBackground());
         System.out.println("Purchaser ready " + this.id);
         try {
             synchronized (this) {

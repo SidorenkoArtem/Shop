@@ -1,10 +1,9 @@
 package model;
 
 import lombok.*;
-
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
 @ToString
 @Setter
@@ -38,25 +37,35 @@ public class Cashier implements Runnable {
     }
 
     public void run() {
-        CashDesk.purchasersCashDesks.put(this, new ArrayList<Purchaser>());
+        synchronized (CashDesk.purchasersCashDesks) {
+            CashDesk.purchasersCashDesks.put(this, new ArrayList<Purchaser>());
+        }
         System.out.println("Cashier " + this.getId() + "ready");
         System.out.println(CashDesk.purchasersCashDesks);
         while(true) {
-            final Purchaser purchaser = CashDesk.getPurchaser(this, panel.getGraphics());
+            final Purchaser purchaser = CashDesk.getPurchaser(this, panel.getGraphics(), panel.getBackground());
             if (purchaser != null) {
                 try {
+                    paint(panel.getGraphics(), Color.BLACK);
                     synchronized (purchaser) {
                         for(Goods goods : purchaser.getBasket()) {
-                            //System.out.println(id + "пробил" +goods);
-                            Thread.sleep(1000);
+                            Thread.sleep(1000);//Оценка товара
                         }
                         purchaser.notify();
                         System.out.println("Purchaser " + purchaser.getId() + " left from cashier " + id);
                     }
+                    paint(panel.getGraphics(), Color.WHITE);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    public synchronized void paint(Graphics g, Color color) {
+        if (g != null) {
+            g.setColor(color);
+            g.fillRect(20, this.y, 40, 20);
         }
     }
 }
